@@ -5,33 +5,33 @@ import { defineChain } from "viem";
 
 const projectId = process.env.NEXT_PUBLIC_WC_PROJECT_ID || "";
 
-// Define Lux chains (own fork with own consensus, not Avalanche)
-export const lux = defineChain({
-  id: 96369,
-  name: "Lux Mainnet",
-  nativeCurrency: { name: "Lux", symbol: "LUX", decimals: 18 },
+// Define Hanzo Network chains
+export const hanzoMainnet = defineChain({
+  id: 36963,
+  name: "Hanzo Network Mainnet",
+  nativeCurrency: { name: "AI", symbol: "AI", decimals: 18 },
   rpcUrls: {
-    default: { http: ["https://api.lux.network/ext/bc/C/rpc"] },
+    default: { http: ["https://rpc.hanzo.network"] },
   },
   blockExplorers: {
     default: {
-      name: "Lux Explorer",
-      url: "https://explorer.lux.network",
+      name: "Hanzo Network Explorer",
+      url: "https://explorer.hanzo.network",
     },
   },
 });
 
-export const luxTestnet = defineChain({
-  id: 96368,
-  name: "Lux Testnet",
-  nativeCurrency: { name: "Lux", symbol: "LUX", decimals: 18 },
+export const hanzoTestnet = defineChain({
+  id: 36962,
+  name: "Hanzo Network Testnet",
+  nativeCurrency: { name: "AI", symbol: "AI", decimals: 18 },
   rpcUrls: {
-    default: { http: ["https://api.lux-test.network/ext/bc/C/rpc"] },
+    default: { http: ["https://rpc-testnet.hanzo.network"] },
   },
   blockExplorers: {
     default: {
-      name: "Lux Testnet Explorer",
-      url: "https://explorer.lux-test.network",
+      name: "Hanzo Network Testnet Explorer",
+      url: "https://explorer-testnet.hanzo.network",
     },
   },
   testnet: true,
@@ -48,29 +48,12 @@ export const localhost = defineChain({
   testnet: true,
 });
 
-// Define Lux subnet chains
-const wagmiTestnet = defineChain({
-  id: 11111,
-  name: "WAGMI Testnet",
-  nativeCurrency: { name: "WAGMI", symbol: "WGM", decimals: 18 },
-  rpcUrls: {
-    default: { http: ["https://subnets.lux.network/wagmi/wagmi-chain-testnet/rpc"] },
-  },
-  blockExplorers: {
-    default: {
-      name: "WAGMI Explorer",
-      url: "https://subnets.lux.network/wagmi/wagmi-chain-testnet/explorer",
-    },
-  },
-  testnet: true,
-});
-
 export function getConfig() {
   return createConfig({
-    chains: [localhost, mainnet, lux, luxTestnet, wagmiTestnet],
+    chains: [localhost, mainnet, hanzoMainnet, hanzoTestnet],
     connectors: [
       injected(),
-      coinbaseWallet({ appName: "Lux Faucet" }),
+      coinbaseWallet({ appName: "Hanzo Network Faucet" }),
       walletConnect({ projectId }),
     ],
     // Use noopStorage for SSR to completely disable persistence on server
@@ -81,9 +64,8 @@ export function getConfig() {
     transports: {
       [localhost.id]: http(),
       [mainnet.id]: http(),
-      [lux.id]: http(),
-      [luxTestnet.id]: http(),
-      [wagmiTestnet.id]: http(),
+      [hanzoMainnet.id]: http(),
+      [hanzoTestnet.id]: http(),
     },
   });
 }
