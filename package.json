@@ -1,17 +1,17 @@
 {
-  "name": "@luxfi/faucet",
+  "name": "@hanzo/faucet",
   "version": "1.0.0",
-  "description": "",
+  "description": "Hanzo Network Faucet - Distribute test tokens on Hanzo Network",
   "main": "server.js",
   "engines": {
     "node": ">=17",
     "pnpm": ">=8.0.0"
   },
   "scripts": {
-    "build": "tsc && pnpm --filter @luxfi/faucet-app build",
+    "build": "tsc && pnpm --filter @hanzo/faucet-app build",
     "start": "node build/server.js",
     "dev": "tsx watch server.ts",
-    "dev:app": "pnpm --filter @luxfi/faucet-app dev",
+    "dev:app": "pnpm --filter @hanzo/faucet-app dev",
     "dev:all": "pnpm dev & pnpm dev:app",
     "generate": "tsx scripts/generateKey.ts",
     "generate:key": "tsx scripts/generateKey.ts"

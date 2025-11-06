@@ -1,26 +1,35 @@
-# LUX Subnet Faucet
+# Hanzo Network Faucet
 
-Right now there are thousands of networks and chains in the blockchain space, each with its capabilities and use-cases. And each network requires native coins to do any transaction on them, which can have a monetary value as well. These coins can be collected through centralized exchanges, token sales, etc in exchange for some monetary assets like USD.
+Modern faucet for distributing test tokens on Hanzo Network - The AI Compute L1 blockchain.
 
-But we cannot risk our funds on the network or on any applications hosted on that network, without testing them first. So, these networks often have test networks or testnets, where the native coins do not have any monetary value, and thus can be obtained freely through faucets.
+Hanzo Network is a Layer 1 blockchain designed for AI compute workloads, featuring:
+- **Proof of AI (PoAI)** consensus mechanism
+- **Hamiltonian Market Maker (HMM)** for AI compute pricing
+- **Native $AI token** for transactions and compute payments
+- **EVM compatibility** for seamless DApp integration
 
-These testnets are often the testbeds for any new native feature of the network itself, or any dApp or [Subnet](https://docs.lux.network) that is going live on the main network (mainnet).
+This faucet supports both Hanzo Network Mainnet (Chain ID: 36963) and Testnet (Chain ID: 36962).
 
-Besides Testnet, [LUX Faucet](https://faucet.lux.network/) can be used to get free coins on these testnets Subnets.
+## Features
 
-You can use this [repository](https://github.com/luxdefi/faucet) to deploy your faucet or just make a PR with the [configurations](https://github.com/luxdefi/faucet/blob/main/config.json) of the Subnet. This faucet comes with many features like multiple chain support, custom rate-limiting per Subnet, captcha verification, and concurrent transaction handling.
+- 🚀 Modern Next.js 16 + React 19 frontend
+- 🔐 RainbowKit wallet integration with wagmi v2 and viem v2
+- 🤖 Google reCAPTCHA v3 verification
+- ⚡ Rate limiting per address and global
+- 🎨 Beautiful UI with Tailwind CSS 4
+- 📱 Responsive design for all devices
 
 ## TL;DR
 
-A [Faucet](https://faucet.lux.network/) powered by LUX for Testnet Network and other Subnets. You can -
+Get free test tokens for Hanzo Network:
 
-* Request test coins for the supported Subnets
-* Integrate your EVM Subnet with the faucet by making a PR with the [chain configurations](https://github.com/luxdefi/faucet/blob/main/config.json)
-* Fork the [repository](https://github.com/luxdefi/faucet) to deploy your faucet for any EVM chain
+* Request test AI tokens for Hanzo Testnet or Mainnet
+* Connect your wallet with RainbowKit or enter an address manually
+* Protected by rate limiting and captcha verification
 
-## Adding a New Subnet
+## Network Configuration
 
-You can also integrate a new Subnet on the live [faucet](https://faucet.lux.network) with just a few lines of configuration parameters. All you have to do is make a PR on the [LUX Faucet](https://github.com/luxdefi/faucet) git repository with the Subnet's information. The following parameters are required.
+The faucet is configured for Hanzo Network chains in `config.json`. The following parameters define each network:
 
 ```json
 {
@@ -41,62 +50,52 @@ You can also integrate a new Subnet on the live [faucet](https://faucet.lux.netw
 }
 ```
 
-* **ID** - Each subnet chain should have a unique and relatable ID.
-* **NAME** - Name of the Subnet chain that will appear on the website.
-* **RPC** - A valid RPC URL for accessing the chain.
-* **CHAINID** - Chain ID of the chain
-* **EXPLORER** - Base URL of standard explorer's website.
-* **IMAGE** - URL of the icon of the chain that will be shown in the dropdown.
-* **MAX_PRIORITY_FEE** - Maximum tip per faucet drop in **wei** or **10<sup>-18</sup>** unit (for EIP1559 supported chains)
-* **MAX_FEE** - Maximum fee that can be paid for a faucet drop in **wei** or **10<sup>-18</sup>** unit
-* **DRIP_AMOUNT** - Amount of coins to send per request in **gwei** or **10<sup>-9</sup>** unit
-* **RECALIBRATE** *(optional)* - Number of seconds after which the nonce and balance will recalibrate
-* **RATELIMIT** - Number of times (MAX_LIMIT) to allow per user within the WINDOW_SIZE (in minutes)
+* **ID** - Unique identifier (e.g., `HANZO_TESTNET`, `HANZO_MAINNET`)
+* **NAME** - Display name shown in the UI
+* **TOKEN** - Native token symbol (AI for Hanzo Network)
+* **RPC** - RPC endpoint URL
+* **CHAINID** - EVM chain ID (36962 for testnet, 36963 for mainnet)
+* **EXPLORER** - Block explorer base URL
+* **IMAGE** - Logo image URL
+* **MAX_PRIORITY_FEE** - Maximum priority fee in wei (EIP-1559)
+* **MAX_FEE** - Maximum total fee in wei
+* **DRIP_AMOUNT** - Tokens to send per request
+* **DECIMALS** - Token decimals (18 for AI)
+* **RECALIBRATE** - Nonce recalibration interval in seconds
+* **RATELIMIT** - Request limits (MAX_LIMIT per WINDOW_SIZE minutes)
 
-Add the configuration in the array of `evmchains` inside the [config.json](https://github.com/luxdefi/faucet/blob/main/config.json) file and make a PR.
+Configuration is in `config.json` at the repository root.
 
-## Building and Deploying a Faucet
-
-You can also deploy and build your faucet by using the [LUX Faucet](https://github.com/luxdefi/faucet) repository.
+## Building and Deploying
 
 ### Requirements
 
-* [Node](https://nodejs.org/en) >= 17.0 and [npm](https://www.npmjs.com/) >= 8.0
+* [Node.js](https://nodejs.org/en) >= 17.0
+* [pnpm](https://pnpm.io/) >= 8.0.0 (preferred package manager)
 * [Google's ReCaptcha](https://www.google.com/recaptcha/intro/v3.html) v3 keys
-* [Docker](https://www.docker.com/get-started/)
+* Wallet with AI tokens on Hanzo Network
 
 ### Installation
 
-Clone this repository at your preferred location.
+```bash
+git clone https://github.com/hanzoai/faucet
+cd faucet
+pnpm install
+```
+
+### Frontend Configuration
+
+The frontend is built with Next.js 16 and uses environment variables for configuration. Create `app/.env.local`:
 
 ```bash
-git clone https://github.com/luxdefi/faucet
+# API endpoint (defaults to http://localhost:8000 in development)
+NEXT_PUBLIC_API_URL=http://localhost:8000
+
+# Google ReCaptcha v3 Site Key (public key)
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_recaptcha_site_key_here
 ```
 
-### Client Side Configurations
-
-We need to configure our application with the server API endpoints and Captcha site keys. All the client-side configurations are there in the `client/src/config.json` file. Since there are no secrets on the client-side, we do not need any environment variables. Update the config files according to your need.
-
-```json
-{
-    "banner": "/banner.png",
-    "apiBaseEndpointProduction": "/api/",
-    "apiBaseEndpointDevelopment": "http://localhost:8000/api/",
-    "apiTimeout": 10000,
-    "CAPTCHA": {
-        "siteKey": "6LcNScYfAAAAAJH8fauA-okTZrmAxYqfF9gOmujf",
-        "action": "faucetdrip"
-    }
-}
-```
-
-Put the Google's ReCaptcha site-key without which the faucet client can't send the necessary captcha response to the server. This key is not a secret and could be public.
-
-In the above file, there are 2 base endpoints for the faucet server `apiBaseEndpointProduction` and `apiBaseEndpointDevelopment`.
-
-In production mode, the client-side will be served as static content over the server's endpoint, and hence we do not have to provide the server's IP address or domain.
-
-The URL path should be valid, where the server's APIs are hosted. If the endpoints for API have a leading `/v1/api` and the server is running on localhost at port 3000, then you should use `http://localhost:3000/v1/api` or `/v1/api/` depending on whether it is production or development.
+The frontend runs on port 3000 by default and communicates with the backend API on port 8000.
 
 ### Server-Side Configurations
 
@@ -104,35 +103,46 @@ On the server side, we need to configure 2 files - `.env` for secret keys and `c
 
 #### Setup Environment Variables
 
-Setup the environment variable with your private key and ReCaptcha secret. Make a `.env` file in your preferred location with the following credentials, as this file will not be committed to the repository. The faucet server can handle multiple EVM chains, and therefore requires private keys for addresses with funds on each of the chains.
-
-If you have funds on the same address on every chain, then you can specify them with the single variable`PK`. But if you have funds on different addresses on different chains, then you can provide each of the private keys against the ID of the chain, as shown below.
+Create a `.env` file in the repository root with your private keys and ReCaptcha secret:
 
 ```env
-C="C chain private key"
-WAGMI="Wagmi chain private key"
-PK="Sender Private Key with Funds in it"
-CAPTCHA_SECRET="Google ReCaptcha Secret"
+# Wallet private key with AI tokens (required)
+PK="your_private_key_here"
+
+# Chain-specific keys (optional - PK is used as fallback)
+HANZO_TESTNET="your_testnet_private_key"
+HANZO_MAINNET="your_mainnet_private_key"
+
+# Google ReCaptcha Secret (required)
+CAPTCHA_SECRET="your_recaptcha_v3_secret_key"
+
+# Optional: Server port (defaults to 8000)
+PORT=8000
 ```
-`PK` will act as a fallback private key, in case, the key for any chain is not provided.
 
-#### Setup EVM Chain Configurations
+Generate a new wallet:
+```bash
+pnpm generate
+```
 
-You can create a faucet server for any EVM chain by making changes in the `config.json` file. Add your chain configuration as shown below in the `evmchains` object. Configuration for Testnet's C-Chain and WAGMI chain is shown below for example.
+#### Chain Configuration
+
+Hanzo Network chains are pre-configured in `config.json`:
 
 ```json
 "evmchains": [
     {
-        "ID": "C",
-        "NAME": "Testnet (EVM-Chain)",
-        "TOKEN": "LUX",
-        "RPC": "https://api.lux-test.network/ext/C/rpc",
-        "CHAINID": 43113,
-        "EXPLORER": "https://testnet.snowtrace.io",
-        "IMAGE": "/lux.png",
+        "ID": "HANZO_TESTNET",
+        "NAME": "Hanzo Network Testnet",
+        "TOKEN": "AI",
+        "RPC": "https://rpc-testnet.hanzo.network",
+        "CHAINID": 36962,
+        "EXPLORER": "https://explorer-testnet.hanzo.network",
+        "IMAGE": "https://hanzo.ai/logo.png",
         "MAX_PRIORITY_FEE": "2000000000",
         "MAX_FEE": "100000000000",
-        "DRIP_AMOUNT": 2000000000,
+        "DRIP_AMOUNT": 10,
+        "DECIMALS": 18,
         "RECALIBRATE": 30,
         "RATELIMIT": {
             "MAX_LIMIT": 1,
@@ -140,26 +150,31 @@ You can create a faucet server for any EVM chain by making changes in the `confi
         }
     },
     {
-        "ID": "WAGMI",
-        "NAME": "WAGMI Testnet",
-        "TOKEN": "WGM",
-        "RPC": "https://subnets.lux.network/wagmi/wagmi-chain-testnet/rpc",
-        "CHAINID": 11111,
-        "EXPLORER": "https://subnets.lux.network/wagmi/wagmi-chain-testnet/explorer",
-        "IMAGE": "/wagmi.png",
+        "ID": "HANZO_MAINNET",
+        "NAME": "Hanzo Network Mainnet",
+        "TOKEN": "AI",
+        "RPC": "https://rpc.hanzo.network",
+        "CHAINID": 36963,
+        "EXPLORER": "https://explorer.hanzo.network",
+        "IMAGE": "https://hanzo.ai/logo.png",
         "MAX_PRIORITY_FEE": "2000000000",
         "MAX_FEE": "100000000000",
-        "DRIP_AMOUNT": 2000000000,
+        "DRIP_AMOUNT": 1,
+        "DECIMALS": 18,
+        "RECALIBRATE": 30,
         "RATELIMIT": {
             "MAX_LIMIT": 1,
-            "WINDOW_SIZE": 1440
+            "WINDOW_SIZE": 2880
         }
     }
 ]
 ```
-In the above configuration drip amount is in `nLUX` or `gwei`, whereas fees are in `wei`. For example, with the above configurations, the faucet will send `1 LUX` with maximum fees per gas being `100 nLUX` and priority fee as `2 nLUX`.
 
-The rate limiter for C Chain will only accept 1 request in 60 minutes for a particular API and 2 requests in 60 minutes for the WAGMI chain. Though it will skip any failed requests so that users can request tokens again, even if there is some internal error in the application. On the other hand, the global rate limiter will allow 15 requests per minute on every API. This time failed requests will also get counted so that no one can abuse the APIs.
+**Configuration Details:**
+- Testnet: 10 AI tokens per request, 1 request per 24 hours
+- Mainnet: 1 AI token per request, 1 request per 48 hours
+- All fees specified in wei (10^-18 AI)
+- Rate limits prevent abuse while allowing legitimate testing
 
 ### API Endpoints
 
@@ -299,43 +314,34 @@ new RateLimiter(app, evmchains);
 
 Remove the  `captcha.middleware` from `sendToken` API.
 
-### Starting the Faucet
+### Development Workflow
 
-Follow the below commands to start your local faucet.
-
-#### Installing Dependencies
-
-This will concurrently install dependencies for both client and server.
-
+#### Start Backend (Port 8000)
 ```bash
-npm install
+pnpm dev
 ```
 
-If ports have a default configuration, then the client will start at port 3000 and the server will start at port 8000 while in development mode.
-
-#### Starting in Development Mode
-
-This will concurrently start the server and client in development mode.
-
+#### Start Frontend (Port 3000)
 ```bash
-npm run dev
+pnpm dev:app
 ```
 
-#### Building for Production
-
-The following command will build server and client at `build/` and `build/client` directories.
-
+#### Start Both Concurrently
 ```bash
-npm run build
+pnpm dev:all
 ```
 
-#### Starting in Production Mode
-
-This command should only be run after successfully building the client and server-side code.
-
+#### Build for Production
 ```bash
-npm start
+pnpm build
 ```
+
+#### Start Production Server
+```bash
+pnpm start
+```
+
+The frontend will be available at http://localhost:3000 and the backend API at http://localhost:8000.
 
 ### Setting up with Docker
 
@@ -379,47 +385,73 @@ docker start faucet-container
 
 ## Using the Faucet
 
-Using the faucet is quite straightforward, but for the sake of completeness, let's go through the steps, to collect your first test coins.
+### 1. Visit the Faucet
 
-### Visit LUX Faucet Website
+Navigate to the faucet URL (e.g., http://localhost:3000 for local development).
 
-Go to https://faucet.lux.network. You will see various network parameters like network name, faucet balance, drop amount, drop limit, faucet address, etc.
+### 2. Connect Wallet (Optional)
 
-![](https://raw.githubusercontent.com/luxdefi/docs/master/static/img/faucet-1.jpeg)
+Click "Connect Wallet" in the top-right to connect via RainbowKit. Supports MetaMask, WalletConnect, and other popular wallets.
 
-### Select Network
+### 3. Select Network
 
-You can use the dropdown to select the network of your choice and get some free coins (each network may have a different drop amount).
+Choose either:
+- **Hanzo Network Testnet** (36962) - Get 10 AI tokens
+- **Hanzo Network Mainnet** (36963) - Get 1 AI token
 
-![](https://raw.githubusercontent.com/luxdefi/docs/master/static/img/faucet-2.png)
+### 4. Enter Address
 
-### Put Address and Request Coins
+- If wallet connected: Tokens automatically sent to connected address
+- If no wallet: Manually enter destination address
 
-Put your wallet address where you want to get a drop, and click the **Request** button. Within a second, you will get a **transaction hash** for the processed transaction. The hash would be a hyperlink to Subnet's explorer. You can see the transaction status, by clicking on that hyperlink.
+### 5. Request Tokens
 
-![](https://raw.githubusercontent.com/luxdefi/docs/master/static/img/faucet-3.png)
+Click "Request Tokens" button. The transaction will:
+- Verify ReCaptcha
+- Check rate limits
+- Send tokens to your address
+- Return transaction hash with explorer link
 
-### More Interactions
+### 6. Add Network to Wallet
 
-This is not just it. Using the buttons shown below, you can go to the Subnet explorer or add the Subnet to your browser wallet extensions like Metamask with a single click.
+Click "Add Network to Wallet" button to automatically configure Hanzo Network in MetaMask or other Web3 wallets.
 
-![](https://raw.githubusercontent.com/luxdefi/docs/master/static/img/faucet-4.png)
+## Troubleshooting
 
-### Probable Errors and Troubleshooting
+### Common Errors
 
-Errors are not expected, but if you are facing some of the errors shown, then you could try troubleshooting as shown below. If none of the troubleshooting works, reach us through [Discord](https://discord.com/channels/578992315641626624/).
+**Too many requests. Please try again after X minutes**
+- Rate limiting is active. Each address is limited to:
+  - Testnet: 1 request per 24 hours
+  - Mainnet: 1 request per 48 hours
+- If you're seeing this on first request, you may be behind a shared proxy/VPN
 
-* **Too many requests. Please try again after X minutes**
-This is a rate-limiting message. Every Subnet can set its drop limits. The above message suggests that you have reached your drop limit i.e. the number of times you could request coins within the window of X minutes. You should try requesting after X minutes. If you are facing this problem, even when you are requesting for the first time in the window, you may be behind some proxy, WiFi, or VPN service that is also being used by some other user.
+**Captcha verification failed! Try refreshing**
+- Using Google ReCaptcha v3 (score-based, no puzzle)
+- Minimum score: 0.3 required
+- Solutions: Refresh page, disable ad-blockers, turn off VPN
+- See [ReCaptcha troubleshooting guide](https://2captcha.com/blog/google-doesnt-accept-recaptcha-answers)
 
-* **Captcha verification failed! Try refreshing**
-We are using v3 of [Google's ReCaptcha](https://developers.google.com/recaptcha/docs/v3). This version uses scores between 0 and 1 to rate the interaction of humans with the website, with 0 being the most suspicious one. You do not have to solve any puzzle or mark the **I am not a Robot** checkbox. The score will be automatically calculated. We want our users to score at least 0.3 to use the faucet. This is configurable, and we will update the threshold after having broader data. But if you are facing this issue, then you can try refreshing your page, disabling ad-blockers, or switching off any VPN. You can follow this [guide](https://2captcha.com/blog/google-doesnt-accept-recaptcha-answers) to get rid of this issue.
+**Internal RPC error! Please try after sometime**
+- RPC node experiencing issues
+- Health check runs every 30 seconds (configurable)
+- Usually temporary - wait and retry
 
-* **Internal RPC error! Please try after sometime**
-This is an internal error in the Subnet's node, on which we are making an RPC for sending transactions. A regular check will update the RPC's health status every 30 seconds (default) or whatever is set in the configuration. This may happen only in rare scenarios and you cannot do much about it, rather than waiting.
+**Network error. Please try again**
+- Check internet connection
+- Verify API endpoint is accessible
+- Try again in a few moments
+- If persistent, check backend logs
 
-* **Timeout of 10000ms exceeded**
-There could be many reasons for this message. It could be an internal server error, or the request didn't receive by the server, slow internet, etc. You could try again after some time, and if the problem persists, then you should raise this issue on our [Discord](https://discord.com/channels/578992315641626624/) server.
+**Transaction pending on explorer**
+- Transaction hash is pre-computed
+- Explorer may take time to index
+- Hanzo Network transactions are fast but indexing can lag
+- Wait 30-60 seconds before reporting issues
 
-* **Couldn't see any transaction status on explorer**
-The transaction hash that you get for each drop is pre-computed using the expected nonce, amount, and receiver's address. Though transactions on LUX are near-instant, the explorer may take time to index those transactions. You should wait for a few more seconds, before raising any issue or reaching out to us.
+### Support
+
+For additional help:
+- GitHub Issues: https://github.com/hanzoai/faucet/issues
+- Hanzo Network: https://hanzo.ai
+- Documentation: https://docs.hanzo.ai

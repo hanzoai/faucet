@@ -1,5 +1,5 @@
 {
-  "name": "@luxfi/faucet-app",
+  "name": "@hanzo/faucet-app",
   "version": "2.0.0",
   "private": true,
   "scripts": {
